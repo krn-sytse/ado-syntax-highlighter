@@ -63,6 +63,22 @@ A browser extension that brings syntax highlighting to file diffs in Azure DevOp
 
 **Note:** This is a temporary add-on and will need to be reloaded every time you restart Firefox.
 
+### Safari
+
+#### From GitHub Releases (Manual)
+
+1.  Go to the [**latest release**](https://github.com/krn-sytse/ado-syntax-highlighter/releases/latest).
+2.  Download the `safari-extension.zip` file.
+3.  Unzip the file (you will get a folder named `safari-extension`)
+4.  Open `safari-extension/safari/Syntax Highlighter for Azure DevOps/Syntax Highlighter for Azure DevOps.xcodeproj` in Xcode.
+5.  In Xcode, select _Product -> Run_. Once it is done, a message _Build Succeeded_ is shown and a pop-up should open. 
+6.  In the pop-up, select _Quit and Open Safari Settings_. The extension should be listed here.
+
+> [!NOTE]
+> If the build succeeded but the extension is not listed, unsure the following settings are checked in the extensions menu:
+> - _Advanced -> Show features for web developers_
+> - _Developer -> Allow unsigned extensions_
+
 ## Usage
 
 Once installed, the extension will automatically apply syntax highlighting to files in any Azure DevOps pull request you view. There are no additional steps required.
