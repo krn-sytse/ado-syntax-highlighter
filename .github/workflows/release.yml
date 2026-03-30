@@ -6,8 +6,8 @@ on:
       - 'v*.*.*' # Triggers on tags like v1.0.0
 
 jobs:
-  build-release:
-    name: Build and Release
+  build-chrome-firefox:
+    name: Build and Release (Chrome & Firefox)
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -25,7 +25,7 @@ jobs:
         run: npm ci
 
       - name: Build and package extensions
-        run: make package
+        run: make package-chrome package-firefox
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -33,3 +33,34 @@ jobs:
           files: |
             dist/chrome-extension.zip
             dist/firefox-extension.zip
+
+  build-safari:
+    name: Build and Release (Safari)
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and convert Safari extension
+        run: make package-safari
+
+      - name: Zip Safari Xcode project
+        run: |
+          cd dist
+          zip -r safari-extension.zip safari/ -x "*.DS_Store"
+      
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/safari-extension.zip

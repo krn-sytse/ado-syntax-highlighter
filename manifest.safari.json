@@ -21,14 +21,10 @@
     "*://*/*"
   ],
   "background": {
-    "scripts": [
-      "browser-polyfill.min.js",
-      "background.js"
-    ]
+    "service_worker": "background.js"
   },
   "options_ui": {
-    "page": "options.html",
-    "open_in_tab": true
+    "page": "options.html"
   },
   "content_scripts": [
     {
@@ -47,16 +43,5 @@
       ],
       "run_at": "document_idle"
     }
-  ],
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "ado-syntax-highlighter@krn-sytse.github.io",
-      "strict_min_version": "128.0",
-      "data_collection_permissions": {
-        "required": [
-          "none"
-        ]
-      }
-    }
-  }
+  ]
 }

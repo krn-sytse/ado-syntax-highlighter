@@ -4,15 +4,15 @@
   "main": "content_script.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ckob/ado-syntax-highlighter.git"
+    "url": "git+https://github.com/krn-sytse/ado-syntax-highlighter.git"
   },
   "keywords": [],
-  "author": "https://github.com/ckob",
+  "author": "https://github.com/krn-sytse",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ckob/ado-syntax-highlighter/issues"
+    "url": "https://github.com/krn-sytse/ado-syntax-highlighter/issues"
   },
-  "homepage": "https://github.com/ckob/ado-syntax-highlighter",
+  "homepage": "https://github.com/krn-sytse/ado-syntax-highlighter",
   "devDependencies": {
     "terser": "^5.44.1"
   }
