@@ -1,10 +1,9 @@
 name: Create Release
 
 on:
-  pull_request: 
-  # push:
-  #   tags:
-  #     - 'v*.*.*' # Triggers on tags like v1.0.0
+  push:
+    tags:
+      - 'v*.*.*' # Triggers on tags like v1.0.0
 
 jobs:
   build-chrome-firefox:
@@ -28,18 +27,12 @@ jobs:
       - name: Build and package extensions
         run: make package-chrome package-firefox
 
-      - name: Upload dist
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: chrome-firefox-dist
-          path: dist
-
-      # - name: Create GitHub Release
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     files: |
-      #       dist/chrome-extension.zip
-      #       dist/firefox-extension.zip
+          files: |
+            dist/chrome-extension.zip
+            dist/firefox-extension.zip
 
   build-safari:
     name: Build and Release (Safari)
@@ -67,13 +60,7 @@ jobs:
           cd dist
           zip -r safari-extension.zip safari/ -x "*.DS_Store"
       
-      - name: Upload dist
-        uses: actions/upload-artifact@v4
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: safari-dist
-          path: dist
-
-      # - name: Upload to GitHub Release
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     files: dist/safari-extension.zip
+          files: dist/safari-extension.zip
