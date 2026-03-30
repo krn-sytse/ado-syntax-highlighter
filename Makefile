@@ -5,6 +5,7 @@ FIREFOX_BUILD := $(DIST_DIR)/firefox_build
 SAFARI_BUILD := $(DIST_DIR)/safari_build
 CHROME_ZIP := $(DIST_DIR)/chrome-extension.zip
 FIREFOX_ZIP := $(DIST_DIR)/firefox-extension.zip
+SAFARI_ZIP := $(DIST_DIR)/safari-extension.zip
 
 # --- Source Files ---
 COMMON_FILES := \
@@ -85,5 +86,8 @@ package-safari: safari
 		--no-prompt \
 		--no-open \
 		--force
+	@echo "Zipping Safari..."
+	@rm -f $(SAFARI_ZIP)
+	@cd $(SAFARI_BUILD) && zip -r ../$(notdir $(SAFARI_ZIP)) . -x "*.DS_Store"
 
 .PHONY: all package clean chrome firefox safari package-chrome package-firefox package-safari

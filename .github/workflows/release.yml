@@ -54,11 +54,6 @@ jobs:
 
       - name: Build and convert Safari extension
         run: make package-safari
-
-      - name: Zip Safari Xcode project
-        run: |
-          cd dist
-          zip -r safari-extension.zip safari/ -x "*.DS_Store"
       
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
