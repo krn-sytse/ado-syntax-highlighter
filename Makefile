@@ -88,6 +88,6 @@ package-safari: safari
 		--force
 	@echo "Zipping Safari..."
 	@rm -f $(SAFARI_ZIP)
-	@cd $(SAFARI_BUILD) && zip -r ../$(notdir $(SAFARI_ZIP)) . -x "*.DS_Store"
+	@cd $(DIST_DIR) && zip -r $(notdir $(SAFARI_ZIP)) safari/ safari_build/ -x "*.DS_Store"
 
 .PHONY: all package clean chrome firefox safari package-chrome package-firefox package-safari
