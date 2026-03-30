@@ -2,6 +2,7 @@
 DIST_DIR := dist
 CHROME_BUILD := $(DIST_DIR)/chrome_build
 FIREFOX_BUILD := $(DIST_DIR)/firefox_build
+SAFARI_BUILD := $(DIST_DIR)/safari_build
 CHROME_ZIP := $(DIST_DIR)/chrome-extension.zip
 FIREFOX_ZIP := $(DIST_DIR)/firefox-extension.zip
 
@@ -19,8 +20,8 @@ COMMON_DIRS := \
 	assets
 
 # --- Primary Targets ---
-all: chrome firefox
-package: package-chrome package-firefox
+all: chrome firefox safari
+package: package-chrome package-firefox package-safari
 
 clean:
 	@echo "Cleaning..."
@@ -60,6 +61,9 @@ chrome:
 firefox:
 	$(call build-extension,$(FIREFOX_BUILD),manifest.firefox.json)
 
+safari:
+	$(call build-extension,$(SAFARI_BUILD),manifest.safari.json)
+
 # --- Package (Zip) Targets ---
 package-chrome: chrome
 	@echo "Zipping Chrome..."
@@ -71,4 +75,15 @@ package-firefox: firefox
 	@rm -f $(FIREFOX_ZIP)
 	@cd $(FIREFOX_BUILD) && zip -r ../$(notdir $(FIREFOX_ZIP)) . -x "*.DS_Store"
 
-.PHONY: all package clean chrome firefox package-chrome package-firefox
+package-safari: safari
+	@echo "Converting Safari extension (requires Xcode)..."
+	@xcrun safari-web-extension-converter $(SAFARI_BUILD) \
+		--project-location $(DIST_DIR)/safari \
+		--app-name "Syntax Highlighter for Azure DevOps" \
+		--bundle-identifier com.krn-sytse.ado-syntax-highlighter \
+		--macos-only \
+		--no-prompt \
+		--no-open \
+		--force
+
+.PHONY: all package clean chrome firefox safari package-chrome package-firefox package-safari
