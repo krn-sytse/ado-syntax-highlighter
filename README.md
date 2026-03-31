@@ -32,12 +32,6 @@ This fork is expanded to support the Magik language (thanks to [@sebastiaanspeck
 
 ### Chrome
 
-#### From the Chrome Web Store (Recommended)
-
-[Available in the Chrome Web Store](https://chromewebstore.google.com/detail/lclohacjbfchomeeopaffkedfnbjicdn?utm_source=github)
-
-#### From GitHub Releases (Manual)
-
 1.  Go to the [**latest release**](https://github.com/krn-sytse/ado-syntax-highlighter/releases/latest).
 2.  Download the `chrome-extension.zip` file.
 3.  Unzip the file (you will get a folder named `chrome-extension`).
@@ -46,12 +40,6 @@ This fork is expanded to support the Magik language (thanks to [@sebastiaanspeck
 6.  Click "Load unpacked" and select the unzipped `chrome-extension` folder.
 
 ### Firefox
-
-#### From the Firefox Add-on Store (Recommended)
-
-[Available in the Firefox Add-on Store](https://addons.mozilla.org/firefox/addon/syntax-highlighter-for-ado/)
-
-#### From GitHub Releases (Manual)
 
 1.  Go to the [**latest release**](https://github.com/krn-sytse/ado-syntax-highlighter/releases/latest).
 2.  Download the `firefox-extension.zip` file.
@@ -63,8 +51,6 @@ This fork is expanded to support the Magik language (thanks to [@sebastiaanspeck
 **Note:** This is a temporary add-on and will need to be reloaded every time you restart Firefox.
 
 ### Safari
-
-#### From GitHub Releases (Manual)
 
 1.  Go to the [**latest release**](https://github.com/krn-sytse/ado-syntax-highlighter/releases/latest).
 2.  Download the `safari-extension.zip` file.
