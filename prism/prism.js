@@ -12417,6 +12417,32 @@ Prism.languages.lolcode = {
 };
 
 Prism.languages.magik = {
+	'comment': [
+		{ pattern: /##.*/, greedy: true, alias: 'documentation' }, // documentation
+		{ pattern: /#(?!#).*/, greedy: true }, // comments
+	],
+
+	'char': {
+		pattern: /%(?:[a-z][\w?!]*|.)/i,
+		greedy: true
+	},
+
+	'string': {
+		pattern: /"(?:\\.|[^"\\\r\n])*"|'(?:\\.|[^'\\\r\n])*'/,
+		greedy: true
+	},
+
+	'regex': {
+		pattern: /\/(?:(?:\\.|[^\\/\r\n])+\/[qisdlmucx]*|\/)/,
+		greedy: true
+	},
+
+	'declaration': [
+		{ pattern: /(\b_package\s+).*/i, lookbehind: true },
+		{ pattern: /(\b_global\s+)(?!_)\w+/i, lookbehind: true },
+		{ pattern: /(\b_constant\s+)[a-z_]+/i, lookbehind: true }
+	],
+
 	'pragma': {
 		pattern: /_pragma.*/,
 		alias: 'prolog',
@@ -12426,50 +12452,16 @@ Prism.languages.magik = {
 		}
 	},
 
-	'slot': {
-		pattern: /(^|[\s({])\.\s*(?:[A-Za-z_]+)/,
+	'number': /\b\d+(?:\.\d+)?(?:[e&][+-]?\d+)?\b|\b(?:[2-9]|[12]\d|3[0-6])r[a-z0-9]+\b/i,
+
+	'symbol': {
+		pattern: /(^|\W):(?:\|[^|]*\||\\.|[\w?!])+/,
 		lookbehind: true
 	},
 
-	'regex': {
-		pattern: /\/(?:(?!\/)(?:\\.|[^\\\/\r\n])*\/[qisdlmuCX]*|\/)/,
-		greedy: true
-	},
-
-	'declaration': [
-		{ pattern: /(\b_package\b\s+).*/i, greedy: true, lookbehind: true },
-		{ pattern: /(\b_global\b\s+)(?!_)\w+/i, greedy: true, lookbehind: true },
-		{ pattern: /(\b_constant\b\s+)(?:[a-z_]+)/i, greedy: true, lookbehind: true }
-	],
-
-	'comment': [
-		{ pattern: /##.*/, greedy: true, alias: 'documentation' }, // documentation
-		{ pattern: /#(?!#).*/, greedy: true }, // comments
-	],
-
-	'function': [
-		{ pattern: /\b_(?:abstract|endmethod|iter|method|private)\b/, greedy: true }, // method keywords
-		{ pattern: /\b_(?:endproc|proc)\b/ }, // procedure
-		{ pattern: /(\.)\s*\|[A-Za-z_]\w*[!?]?\|/, lookbehind: true }, // encased |methodNames|
-		{ pattern: /(\.)\s*[A-Za-z_]\w*[!?]?/, lookbehind: true }, // methods
-	],
-
-	'self': [
-		{
-			pattern: /(\b_method\b\s+)\S+(?=\.)/,
-			greedy: true,
-			lookbehind: true
-		},
-		{
-			pattern: /\b_self\b/i,
-			greedy: true
-		}
-	],
-
 	'operator': [
-		/\^<</, /<</, { pattern: /_(?:and|andif|or|orif|xor)<</i, greedy: true }, { pattern: /(?:\*\*\^?|\*\^?|\/\^?|_mod\^?|_div\^?|-\^?|\+\^?)<</i, greedy: true }, // assignment operators
-		{ pattern: /(?:\*\*\^?|\*\^?|\/\^?|-\^?|\+\^?)<</, greedy: true }, // assignment operators
-		/<>/, />=/, /<=/, /</, { pattern: /(^|[^>])>(?!>)/, lookbehind: true }, /~=/, /=/, // relational operators
+		/_(?:and|andif|or|orif|xor)<</i, /(?:\*\*\^?|\*\^?|\/\^?|_mod\^?|_div\^?|-\^?|\+\^?)<</i, /\^?<</, // assignment operators
+		/<>/, />=/, /<=/, /</, /~=/, /=/, // relational operators
 		/\*\*/, /\*/, /\//, // arithmetic operators
 		/\+/, /-/, /~/, // unary operators
 	],
@@ -12497,59 +12489,55 @@ Prism.languages.magik = {
 		/\b_(?:allresults|gather|optional|scatter)\b/i // parameter options
 	],
 
-	'builtin': {
-		pattern: /\b_(?:clone|package|super|thisthread)\b/i
-	},
-
-	'boolean': {
-		pattern: /\b_(?:false|maybe|true)\b/i
-	},
-
-	'char': {
-		pattern: /%(?:[a-zA-Z][a-zA-Z0-9_?!]*|.)/,
-		greedy: true
-	},
-
-	'symbol': {
-		pattern: /(^|[^A-Za-z0-9_]):[A-Za-z0-9_|]+(?:\([^)]*\)|\{[^}]*\}|\[[^\]]*\])?[A-Za-z0-9_|]*/,
+	'slot': {
+		pattern: /(^|[\s({])\.\s*[a-z_]+/i,
 		lookbehind: true
 	},
+
+	'builtin': /\b_(?:clone|package|super|thisthread)\b/i,
+
+	'boolean': /\b_(?:false|maybe|true)\b/i,
 
 	'punctuation': /[[\](){},;]/,
 
 	'unset': {
-		pattern: /\b_(?:unset)\b/i,
+		pattern: /\b_unset\b/i,
 		alias: 'symbol'
 	},
 
 	'constant': {
-		pattern: /\b_(?:constant)\b/,
+		pattern: /\b_constant\b/i,
 		alias: 'symbol'
-	},
-
-	'number': {
-		pattern: /\b\d+(?:\.\d+)?(?:[eE&][+-]?\d+)?\b|\b(?:[2-9]|[12]\d|3[0-6])[rR][a-zA-Z0-9]+\b/,
-		greedy: true
-	},
-
-	'string': {
-		pattern: /"(?:\\.|[^"\\\r\n])*"|'(?:\\.|[^'\\\r\n])*'/,
-		greedy: true
 	},
 
 	'global-reference': {
-		pattern: /@(?:[a-zA-Z_][a-zA-Z0-9_]*:)?[a-zA-Z_][a-zA-Z0-9_]*/,
+		pattern: /@(?:[a-z_]\w*:)?[a-z_]\w*/i,
 		alias: 'symbol'
 	},
 
+	'self': [
+		{
+			pattern: /(\b_method\s+)\S+(?=\.)/,
+			lookbehind: true
+		},
+		/\b_self\b/i
+	],
+
+	'function': [
+		/\b_(?:abstract|endmethod|iter|method|private)\b/i, // method keywords
+		/\b_(?:endproc|proc)\b/i, // procedure
+		{ pattern: /(\.)\s*\|[a-z_]\w*[!?]?\|/, lookbehind: true }, // encased |methodNames|
+		{ pattern: /(\.)\s*[a-z_]\w*[!?]?/, lookbehind: true }, // methods
+	],
+
 	'variable': [
-		{ pattern: /\|![a-zA-Z0-9_?!]+!\|/ }, // variable encased like |!var!|
-		{ pattern: /\|![a-zA-Z0-9_?!]+\|!/ }, // variable encased like |!var|!
-		{ pattern: /!\|[a-zA-Z0-9_?!]+\|!/ }, // variable encased like !|var!|
-		{ pattern: /!\|\|!/ }, // empty variable !||!
-		{ pattern: /![a-zA-Z][a-zA-Z0-9_?!]*!/ }, // variable encased like !var!
-		{ pattern: /\b[A-Za-z_]+:[A-Za-z_]+\b/ }, // variable with a prefix like sw:gis_program_manager
-		{ pattern: /(^|[^.])\b[a-zA-Z][a-zA-Z_]*\b/, lookbehind: true }
+		/\|![\w?!]+!\|/, // variable encased like |!var!|
+		/\|![\w?!]+\|!/, // variable encased like |!var|!
+		/!\|[\w?!]+\|!/, // variable encased like !|var!|
+		/!\|\|!/, // empty variable !||!
+		/![a-z][\w?!]*!/, // variable encased like !var!
+		/\b[a-z_]+:\w+\b/i, // variable with a prefix like sw:gis_program_manager
+		{ pattern: /(^|[^.])\b[a-z]\w*\b/i, lookbehind: true }
 	]
 };
 
