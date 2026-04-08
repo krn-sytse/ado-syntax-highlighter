@@ -2,7 +2,7 @@
 
 A browser extension that brings syntax highlighting to file diffs in Azure DevOps, including Pull Requests. Making code reviews easier and more efficient.
 
-This fork is expanded to support the Magik language (thanks to [@sebastiaanspeck](https://github.com/sebastiaanspeck/prism/blob/feature/magik/components/prism-magik.js)). Furthermore, support for a local Safari installation of the extension has been implemented.
+This fork is expanded to support the Magik language as integrated in Prism.js v2, and includes a special _Magik_ theme in the [configuration menu](#configuration). Furthermore, support for a local Safari installation of the extension has been implemented.
 
 ## Features
 
