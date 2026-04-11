@@ -157,9 +157,3 @@ pre[class*="language-"] {
 .language-markup .token.punctuation {
 	color: #ac885b;
 }
-
-/* Make the tokens sit above the line highlight so the colours don't look faded. */
-.token {
-	position: relative;
-	z-index: 1;
-}
