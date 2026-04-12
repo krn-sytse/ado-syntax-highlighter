@@ -21763,4 +21763,3 @@ Prism.languages.yang = {
 		}
 	});
 }());
-
