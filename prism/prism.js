@@ -12437,19 +12437,9 @@ Prism.languages.magik = {
 		greedy: true
 	},
 
-	'declaration': [
-		{ pattern: /(\b_package\s+).*/i, lookbehind: true },
-		{ pattern: /(\b_global\s+)(?!_)\w+/i, lookbehind: true },
-		{ pattern: /(\b_constant\s+)[a-z_]+/i, lookbehind: true }
-	],
-
 	'pragma': {
 		pattern: /_pragma.*/,
-		alias: 'prolog',
-		inside: {
-			'modifier': /classify_level|topic|usage/,
-			'pragma-punctuation': { pattern: /[={},]/ }
-		}
+		alias: 'prolog'
 	},
 
 	'symbol': {
@@ -12457,7 +12447,33 @@ Prism.languages.magik = {
 		lookbehind: true
 	},
 
-	'number': /\b\d+(?:\.\d+)?(?:[e&][+-]?\d+)?\b|\b(?:[2-9]|[12]\d|3[0-6])r[a-z0-9]+\b/i,
+	'global-reference': [
+		{ pattern: /@(?:[a-z_]\w*:)?\|[^|]*\|/i, alias: 'symbol' }, // @|name| or @prefix:|name|
+		{ pattern: /@(?:[a-z_]\w*:)?[a-z_]\w*/i, alias: 'symbol' }, // @name or @prefix:name
+	],
+
+	'dynamic-variable': [
+		{ pattern: /\|![\w?!]+!\|/, alias: 'variable' }, // variable encased like |!var!|
+		{ pattern: /\|![\w?!]+\|!/, alias: 'variable' }, // variable encased like |!var|!
+		{ pattern: /!\|[\w?!]+\|!/, alias: 'variable' }, // variable encased like !|var!|
+		{ pattern: /!\|\|!/, alias: 'variable' }, // empty variable !||!
+		{ pattern: /[a-z_]+:![a-z][\w?!]*!/, alias: 'variable' }, // variable with a prefix like sw:!var!
+		{ pattern: /![a-z][\w?!]*!/, alias: 'variable' }, // variable encased like !var!
+	],
+
+	'global-variable': [
+		{ pattern: /\b[a-z_]+:\w+\b/i, alias: 'variable' }, // variable with a prefix like sw:gis_program_manager
+		{ pattern: /[a-z_]+:\|\w+\|/i, alias: 'variable' }, // variable with a prefix like sw:|gis_program_manager|
+	],
+
+	'declaration': [
+		{ pattern: /(\b_package\s+).*/i, lookbehind: true },
+		{ pattern: /(\b_global\s+)(?!_)\w+/i, lookbehind: true },
+		{ pattern: /(\b_constant\s+)(?!_)\w+/i, lookbehind: true },
+		{ pattern: /(\b_local\s+)(?!_)\w+/i, lookbehind: true }
+	],
+
+	'number': /(?<!\|)\b\d+(?:\.\d+)?(?:[e&][+-]?\d+)?\b|\b(?:[2-9]|[12]\d|3[0-6])r[a-z0-9]+\b/i,
 
 	'operator': [
 		/_(?:and|andif|or|orif|xor)<</i, /(?:\*\*\^?|\*\^?|\/\^?|_mod\^?|_div\^?|-\^?|\+\^?)<</i, /\^?<</, // assignment operators
@@ -12471,8 +12487,12 @@ Prism.languages.magik = {
 		{ pattern: /\b_(?:div|mod)\b/i, alias: 'keyword' } // math
 	],
 
+	'keyword-variable': {
+		pattern: /\b_(?:class|dynamic|global|import|local)\b/i,
+		alias: 'keyword'
+	},
+
 	'keyword': [
-		/\b_(?:class|dynamic|global|import|local)\b/i, // variables
 		/\b_(?:block|endblock)\b/i, // block
 		/\b_(?:elif|else|endif|if|then)\b/i, // if
 		/\b_(?:and|andif|not|or|orif|xor)\b/i, // logical operators
@@ -12490,7 +12510,7 @@ Prism.languages.magik = {
 	],
 
 	'slot': {
-		pattern: /(^|[\s({])\.\s*[a-z_]+/i,
+		pattern: /(^|[\s({])\.\s*[a-z][\w?!]+/i,
 		lookbehind: true
 	},
 
@@ -12510,11 +12530,6 @@ Prism.languages.magik = {
 		alias: 'symbol'
 	},
 
-	'global-reference': {
-		pattern: /@(?:[a-z_]\w*:)?[a-z_]\w*/i,
-		alias: 'symbol'
-	},
-
 	'self': [
 		{
 			pattern: /(\b_method\s+)\S+(?=\.)/,
@@ -12531,12 +12546,7 @@ Prism.languages.magik = {
 	],
 
 	'variable': [
-		/\|![\w?!]+!\|/, // variable encased like |!var!|
-		/\|![\w?!]+\|!/, // variable encased like |!var|!
-		/!\|[\w?!]+\|!/, // variable encased like !|var!|
-		/!\|\|!/, // empty variable !||!
-		/![a-z][\w?!]*!/, // variable encased like !var!
-		/\b[a-z_]+:\w+\b/i, // variable with a prefix like sw:gis_program_manager
+		/\|[\w?!]+\|/, // variable encased like |var|, |0|, |123|
 		{ pattern: /(^|[^.])\b[a-z]\w*\b/i, lookbehind: true }
 	]
 };
